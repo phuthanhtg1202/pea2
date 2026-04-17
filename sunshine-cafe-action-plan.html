@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunshine Café — Kế hoạch triển khai buổi 1</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a18; padding: 24px 16px; }
+.container { max-width: 720px; margin: 0 auto; }
+h1 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+.subtitle { font-size: 14px; color: #888780; margin-bottom: 22px; }
+.phase-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 22px; }
+.phase-btn {
+  padding: 8px 16px; border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #666; font-size: 13px; cursor: pointer;
+  transition: all .15s; font-family: inherit;
+}
+.phase-btn:hover { background: #f0efe8; color: #333; }
+.phase-btn.active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; font-weight: 600; }
+.phase { display: none; }
+.phase.active { display: block; }
+.progress-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+.progress-bar-wrap { background: #e5e4de; border-radius: 6px; height: 6px; margin-bottom: 20px; overflow: hidden; }
+.progress-bar { height: 100%; background: #22c55e; border-radius: 6px; transition: width .3s; }
+.task-group { margin-bottom: 20px; }
+.task-group-label {
+  font-size: 12px; font-weight: 600; color: #1d4ed8;
+  background: #dbeafe;
+  padding: 3px 12px; border-radius: 20px; display: inline-block; margin-bottom: 10px;
+}
+.task {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 12px; border-radius: 8px; cursor: pointer;
+  transition: background .1s; margin-bottom: 2px;
+}
+.task:hover { background: #f0efe8; }
+.checkbox {
+  width: 18px; height: 18px; min-width: 18px; border-radius: 4px;
+  border: 1.5px solid #ccc; display: flex; align-items: center;
+  justify-content: center; margin-top: 2px; transition: all .15s; background: #fff;
+}
+.checkbox.done { background: #dcfce7; border-color: #86efac; }
+.checkbox.done::after {
+  content: ''; display: block; width: 5px; height: 9px;
+  border-right: 2px solid #16a34a; border-bottom: 2px solid #16a34a;
+  transform: rotate(45deg) translateY(-1px);
+}
+.task-text { font-size: 14px; color: #444; line-height: 1.6; }
+.task-text strong { color: #1a1a18; font-weight: 600; }
+.task-note { font-size: 12px; color: #888; margin-top: 3px; line-height: 1.5; }
+.task.done .task-text { color: #aaa; text-decoration: line-through; }
+.tip-box {
+  background: #fefce8; border: 1px solid #fde047;
+  border-radius: 10px; padding: 12px 16px; margin-bottom: 18px;
+}
+.tip-box p { font-size: 13px; color: #854d0e; line-height: 1.6; }
+.timeline-item { display: flex; gap: 14px; margin-bottom: 14px; padding: 12px; background: #fff; border-radius: 10px; border: 1px solid #e8e7e1; }
+.timeline-dot { width: 12px; height: 12px; min-width: 12px; border-radius: 50%; margin-top: 5px; }
+.timeline-dot.blue { background: #3b82f6; }
+.timeline-dot.orange { background: #f97316; }
+.timeline-dot.green { background: #22c55e; }
+.timeline-dot.red { background: #ef4444; }
+.tl-content { font-size: 14px; color: #555; line-height: 1.5; }
+.tl-content strong { color: #1a1a18; font-weight: 600; }
+.tl-sub { font-size: 12px; color: #888; margin-top: 4px; line-height: 1.5; }
+.save-note { text-align: center; font-size: 12px; color: #aaa; margin-top: 32px; padding-top: 20px; border-top: 1px solid #e8e7e1; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>☕ Sunshine Café — Kế hoạch triển khai buổi 1</h1>
+  <p class="subtitle">Checklist chi tiết 4 giai đoạn · Nhấn vào từng việc để đánh dấu hoàn thành</p>
+
+  <div class="phase-nav">
+    <button class="phase-btn active" onclick="showPhase('prep')">1 · Chuẩn bị</button>
+    <button class="phase-btn" onclick="showPhase('marketing')">2 · Marketing</button>
+    <button class="phase-btn" onclick="showPhase('during')">3 · Trong buổi học</button>
+    <button class="phase-btn" onclick="showPhase('after')">4 · Sau buổi học</button>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div id="phase-prep" class="phase active">
+    <div class="progress-label" id="prog-label-prep">0 / 0 việc hoàn thành</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="prog-prep" style="width:0%"></div></div>
+
+    <div class="task-group">
+      <div class="task-group-label">7–10 ngày trước</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Mua đạo cụ vật lý</strong><div class="task-note">Ly nhựa trong + nắp + ống hút màu (10–15 cái), chuông bàn mini, tạp dề nhỏ × số học sinh, bình nước màu (dùng nước pha màu thực phẩm), foam trắng giả kem</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>In & laminate menu Sunshine Café</strong><div class="task-note">In màu A4, laminate 5–6 tờ để dùng nhiều buổi. Nếu không có máy laminate → bọc bằng băng keo trong rộng bản</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>In tiền giả</strong><div class="task-note">Mệnh giá $1, $5, $10 — in 2 bản/mệnh giá/học sinh. Có thể mua bộ tiền giả đồ chơi ở shop mẹ & bé (~30k/bộ)</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>In name tag "Barista" & "Customer"</strong><div class="task-note">Dùng giấy khổ A6, ép plastic hoặc để trong túi name tag, có dây đeo cổ. In đủ số lượng = số học sinh × 2</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>In order slip (phiếu ghi order)</strong><div class="task-note">Giấy nhỏ 1/4 A4, kẻ 3 dòng: Drink / Size / Price. In ~30 tờ/buổi</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>In bảng hiệu "SUNSHINE CAFÉ"</strong><div class="task-note">In A3 màu, chữ lớn, có thể thêm icon café. Laminate hoặc đóng khung → treo lên bàn quầy</div></div></div>
+    </div>
+
+    <div class="task-group">
+      <div class="task-group-label">3–5 ngày trước</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Chuẩn bị file trình chiếu (TV/laptop)</strong><div class="task-note">Slide 1: ảnh café thật đẹp. Slide 2–12: 20 flashcard từ vựng. Slide 13: Menu trên màn hình. Slide 14: Script Level 1 to cỡ chữ</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Chuẩn bị script card in ra</strong><div class="task-note">In script Level 1 cỡ chữ 16pt cho bé lớp 1–2 cầm theo. 1 tờ/học sinh. Có thể bỏ vào sleeve bảo vệ</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Chuẩn bị sticker khen thưởng</strong><div class="task-note">Sticker sao, ngôi sao, unicorn… mua ở shop văn phòng phẩm. Cần ~30–50 cái/buổi</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Setup phòng học kiểu café</strong><div class="task-note">Đẩy 1 bàn ra làm "quầy bar", các bàn còn lại = khu vực khách. Treo bảng hiệu. Test ánh sáng + góc chụp ảnh</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Test toàn bộ flow một lần</strong><div class="task-note">GV tự đóng vai cả 2 vai, chạy thử 10 phút. Kiểm tra props đủ không, tiền giả đủ mệnh giá không, script có chỗ khó hiểu không</div></div></div>
+    </div>
+
+    <div class="task-group">
+      <div class="task-group-label">1 ngày trước</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Phân nhóm học sinh theo độ tuổi</strong><div class="task-note">Lớp 1–2 nhóm riêng hoặc ghép cặp với lớp 4–5 (peer learning). Chuẩn bị sẵn danh sách cặp ghép nếu lớp hỗn hợp</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Nhắn tin nhắc phụ huynh</strong><div class="task-note">"Ngày mai bé sẽ học theo chủ đề Café mini — bé có thể kể cho ba/mẹ nghe đã từng order gì ở café chưa nhé!"</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Sạc thiết bị + test slide</strong><div class="task-note">Laptop/TV đủ pin, kết nối ổn định, âm lượng phù hợp phòng. Có sẵn adapter nếu cần</div></div></div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div id="phase-marketing" class="phase">
+    <div class="progress-label" id="prog-label-marketing">0 / 0 việc hoàn thành</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="prog-marketing" style="width:0%"></div></div>
+    <div class="tip-box"><p>💡 Mục tiêu marketing buổi đầu KHÔNG phải là bán khoá học — mà là tạo ra nội dung viral "bé nói tiếng Anh thật ở café" để phụ huynh tự share. Đây là lead magnet tốt nhất.</p></div>
+
+    <div class="task-group">
+      <div class="task-group-label">Trước buổi — thu hút học sinh mới</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Post "teaser" lên Facebook/Zalo group phụ huynh</strong><div class="task-note">"Tuần này lớp tiếng Anh sẽ biến thành một quán café thật sự ☕ Các bé sẽ tự order, tự tính tiền, hoàn toàn bằng tiếng Anh. Còn 2 chỗ cuối — ai muốn cho bé trải nghiệm miễn phí nhắn mình nhé!"</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Dùng hình ảnh setup làm Story/Reel trước buổi học</strong><div class="task-note">Quay 15–30 giây cảnh setup quầy café, bảng hiệu, đồ props → đăng Story với caption "Ngày mai mở quán ☕ — khách hàng đặc biệt tuổi 6–11"</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Offer buổi học thử miễn phí cho 1–2 học sinh mới</strong><div class="task-note">Chọn những bé có ba/mẹ hay share. Điều kiện: ba/mẹ share ảnh/video sau buổi học</div></div></div>
+    </div>
+
+    <div class="task-group">
+      <div class="task-group-label">Trong buổi — tạo content</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Đặt điện thoại quay sẵn trên tripod/giá đỡ</strong><div class="task-note">Góc quay: nhìn ngang qua quầy café — thấy cả barista và customer. Xin phép phụ huynh trước qua nhắn tin nhóm</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Chụp ảnh "Star of the Day" cầm huy hiệu</strong><div class="task-note">Đứng trước bảng hiệu Sunshine Café, cầm ly + name tag Barista → ảnh này rất viral với phụ huynh</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Chụp ảnh nhóm cuối buổi với đạo cụ</strong><div class="task-note">Cả lớp đứng sau quầy café, cầm ly, đeo name tag. Caption gợi ý: "Future baristas 🌟"</div></div></div>
+    </div>
+
+    <div class="task-group">
+      <div class="task-group-label">Sau buổi — amplify</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Gửi ảnh/clip cho từng phụ huynh qua Zalo trong 2 giờ</strong><div class="task-note">Tốc độ gửi quan trọng — phụ huynh nhận ảnh đẹp khi còn hào hứng sẽ share ngay. Kèm caption gợi ý để phụ huynh copy-paste</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Đăng 1 clip ngắn (15–30s) lên Facebook/TikTok</strong><div class="task-note">Chọn clip bé nói tự nhiên nhất. Caption: "Bé học tiếng Anh không phải bằng sách giáo khoa mà bằng… quán café ☕" + tag địa điểm</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Gửi lời mời đăng ký buổi tiếp theo trong 24 giờ</strong><div class="task-note">"Buổi tiếp theo chủ đề Airport ✈️ — [ngày]. Đăng ký sớm vì lớp chỉ 8–10 bé!"</div></div></div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div id="phase-during" class="phase">
+    <div class="tip-box"><p>⏱ Timeline 90 phút — theo dõi từng phần. Luôn stay in English 80% thời gian.</p></div>
+
+    <div style="margin-bottom: 20px;">
+      <div class="timeline-item"><div class="timeline-dot blue"></div><div class="tl-content"><strong>0:00 – Warm-up (10 phút)</strong><div class="tl-sub">Chiếu ảnh café thật → hỏi "Have you been to a café?" → mở bảng hiệu, đặt props ra → "Today YOU are the barista AND the customer!"</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot orange"></div><div class="tl-content"><strong>0:10 – Vocabulary Blast (15 phút)</strong><div class="tl-sub">Flashcard + TPR (giả uống/ăn) → "Point & Shout" → "Repeat & Clap". Chưa sửa lỗi, chỉ model lại câu đúng tự nhiên</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot green"></div><div class="tl-content"><strong>0:25 – Simulation chính (40 phút)</strong><div class="tl-sub">Level 1 (script) → Level 2 (tự chọn từ menu) → Level 3 (tình huống hết món, order sai). Đổi vai sau 10 phút</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot orange"></div><div class="tl-content"><strong>1:05 – Game Time (15 phút)</strong><div class="tl-sub">Mystery Order (5 phút: đoán Yes/No) + Crazy Café (10 phút: order 10 cookie, nhầm đồ, hết tiền)</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot red"></div><div class="tl-content"><strong>1:20 – Wrap-up & Reward (10 phút)</strong><div class="tl-sub">Star of the Day → mỗi bé nói 1 câu "My favourite drink is…" → phát sticker → chụp ảnh → preview buổi Airport</div></div></div>
+    </div>
+
+    <div class="task-group">
+      <div class="task-group-label">GV cần nhớ trong suốt buổi</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Không sửa lỗi trực tiếp khi bé đang nói</strong><div class="task-note">Ghi nhận, sau đó model lại: "Great! 'Can I have a lemonade please' — very nice!" Ưu tiên fluency trước accuracy buổi đầu</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Đảm bảo MỌI bé được nói ít nhất 3–4 lần</strong><div class="task-note">Theo dõi bé nào chưa nói → nhẹ nhàng mời: "Your turn! What would you like to order?"</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>GV "diễn" hài hước và nhiệt tình</strong><div class="task-note">GV tự đóng vai customer ngộ nghĩnh trước → bé thoải mái theo. Phản ứng thái quá khi nhận nhầm đồ để tạo tiếng cười</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Đánh sticker ngay khi bé nói đúng</strong><div class="task-note">Immediate reward → reinforcement. Không chờ cuối buổi mới phát</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Quay video các khoảnh khắc tự nhiên</strong><div class="task-note">Đặt điện thoại trên tripod, không cầm tay — để GV rảnh tay hoàn toàn</div></div></div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div id="phase-after" class="phase">
+    <div class="progress-label" id="prog-label-after">0 / 0 việc hoàn thành</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="prog-after" style="width:0%"></div></div>
+
+    <div class="task-group">
+      <div class="task-group-label">Trong vòng 2 giờ</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Gửi ảnh + clip từng bé cho phụ huynh qua Zalo</strong><div class="task-note">Kèm 1–2 câu nhận xét cụ thể: "Hôm nay bé X nói Level 2 rất tự tin, tự chọn món và hỏi giá không cần nhìn script 🌟"</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Gửi "mini report" cho phụ huynh</strong><div class="task-note">3 dòng: (1) Bé học được gì hôm nay, (2) 1 câu bé nói ấn tượng nhất, (3) Bài tập về nhà: "Hỏi bé order thử cho ba/mẹ ở nhà xem sao!"</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Đăng nội dung lên mạng xã hội</strong><div class="task-note">Clip 15–30s đẹp nhất, caption có hook mạnh. Trả lời comment trong 1 giờ đầu để thuật toán boost</div></div></div>
+    </div>
+
+    <div class="task-group">
+      <div class="task-group-label">Trong vòng 24 giờ</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Gửi lời mời đăng ký buổi 2 (Airport) kèm preview</strong><div class="task-note">"Buổi 2 chủ đề ✈️ Airport — bé sẽ học check-in, qua cửa an ninh, hỏi đường. Còn [X] chỗ. Đăng ký hôm nay nhận thêm sticker pack!"</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Ghi chép nhanh những điều cần điều chỉnh</strong><div class="task-note">Phần nào bé thích nhất? Phần nào bé mất hứng? Level nào phù hợp hơn? Props nào dùng nhiều nhất?</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Cảm ơn phụ huynh đã share content</strong><div class="task-note">Tag/nhắn riêng những phụ huynh đã share — đây là người sẽ giới thiệu học sinh mới</div></div></div>
+    </div>
+
+    <div class="task-group">
+      <div class="task-group-label">Trong vòng 1 tuần</div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Kiểm tra bài tập về nhà đầu buổi 2</strong><div class="task-note">Hỏi bé: "Did you try ordering at home?" → bé nào làm được kể lại → khen công khai → tạo habit xài tiếng Anh ngoài lớp</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Chuẩn bị buổi 2 — Airport Check-in</strong><div class="task-note">Props cần: vé máy bay giả, passport giả, bảng "Gate A1", cân hành lý giả. Từ vựng mới: boarding pass, check in, window/aisle seat, carry-on, delayed</div></div></div>
+      <div class="task" onclick="toggle(this)"><div class="checkbox"></div><div class="task-text"><strong>Tạo "Progress gallery" trên Zalo group</strong><div class="task-note">"Tuần 1: bé cần nhìn script → Tuần 2: tự nói không cần script". Visual proof rất thuyết phục với phụ huynh mới</div></div></div>
+    </div>
+  </div>
+
+  <p class="save-note">☕ Sunshine Café · Module 2 – Giả lập thực chiến · Tạo bởi Claude</p>
+</div>
+
+<script>
+const phases = ['prep', 'marketing', 'during', 'after'];
+
+function showPhase(id) {
+  phases.forEach(p => {
+    document.getElementById('phase-' + p).classList.toggle('active', p === id);
+  });
+  document.querySelectorAll('.phase-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', phases[i] === id);
+  });
+  updateProgress(id);
+}
+
+function toggle(el) {
+  el.classList.toggle('done');
+  el.querySelector('.checkbox').classList.toggle('done', el.classList.contains('done'));
+  const phase = el.closest('.phase').id.replace('phase-', '');
+  updateProgress(phase);
+}
+
+function updateProgress(phase) {
+  const phaseEl = document.getElementById('phase-' + phase);
+  if (!phaseEl) return;
+  const all = phaseEl.querySelectorAll('.task');
+  const done = phaseEl.querySelectorAll('.task.done');
+  const label = document.getElementById('prog-label-' + phase);
+  const bar = document.getElementById('prog-' + phase);
+  if (label) label.textContent = done.length + ' / ' + all.length + ' việc hoàn thành';
+  if (bar) bar.style.width = (all.length ? (done.length / all.length * 100) : 0) + '%';
+}
+
+phases.forEach(p => updateProgress(p));
+</script>
+</body>
+</html>
