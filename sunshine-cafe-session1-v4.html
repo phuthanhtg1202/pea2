@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunshine Café – Session 1 Materials</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #FFD93D;
+    --orange: #FF6B35;
+    --pink: #FF6B9D;
+    --mint: #06D6A0;
+    --sky: #4CC9F0;
+    --purple: #7B2FBE;
+    --cream: #FFF8F0;
+    --brown: #6B3A2A;
+    --light-brown: #C8956C;
+    --white: #FFFFFF;
+    --red: #EF233C;
+    --teal: #2EC4B6;
+    --lime: #70E000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--brown);
+  }
+
+  .tab-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--brown);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 10px 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .tab-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 14px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--sun);
+    color: var(--brown);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--orange) 0%, var(--pink) 50%, var(--purple) 100%);
+    padding: 40px 24px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  }
+
+  .hero-emoji {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 8px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 42px;
+    color: white;
+    text-shadow: 3px 4px 0 rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .hero p {
+    color: rgba(255,255,255,0.9);
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 6px;
+    position: relative;
+  }
+
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    padding: 24px 24px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title .dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .menu-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px 40px;
+  }
+
+  .menu-header {
+    background: var(--brown);
+    color: white;
+    border-radius: 24px 24px 0 0;
+    padding: 28px 24px 20px;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .menu-header h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 36px;
+    letter-spacing: 2px;
+  }
+
+  .menu-header p {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .menu-body {
+    background: white;
+    border-radius: 0 0 24px 24px;
+    padding: 24px;
+    box-shadow: 0 8px 30px rgba(107,58,42,0.12);
+  }
+
+  .menu-category { margin-bottom: 28px; }
+
+  .menu-cat-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 20px;
+    color: var(--orange);
+    border-bottom: 3px dotted var(--orange);
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .menu-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .menu-item {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .menu-item:hover {
+    border-color: var(--orange);
+    transform: scale(1.02);
+  }
+
+  .item-info { display: flex; align-items: center; gap: 8px; }
+  .item-emoji { font-size: 24px; }
+  .item-name { font-weight: 800; font-size: 14px; line-height: 1.2; color: var(--brown); }
+  .item-vn { font-size: 11px; color: var(--light-brown); font-weight: 600; }
+
+  .item-size-prices { text-align: right; }
+
+  .size-row {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+    margin-bottom: 2px;
+  }
+
+  .size-badge {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 8px;
+    color: white;
+  }
+
+  .size-s { background: var(--mint); }
+  .size-m { background: var(--sky); }
+  .size-l { background: var(--orange); }
+  .size-price { font-size: 11px; font-weight: 700; color: var(--brown); }
+
+  .menu-footer {
+    margin-top: 20px;
+    background: linear-gradient(135deg, var(--sun), var(--orange));
+    border-radius: 16px;
+    padding: 14px 18px;
+    text-align: center;
+    color: var(--brown);
+    font-weight: 800;
+    font-size: 15px;
+  }
+
+  .vocab-wrapper {
+    padding: 0 16px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .vocab-group { margin-bottom: 32px; }
+
+  .vocab-group-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 20px;
+    margin: 0 0 14px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vocab-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .vocab-card {
+    background: white;
+    border-radius: 18px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.25s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid transparent;
+  }
+
+  .vocab-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+
+  .vocab-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.14);
+  }
+
+  .vocab-card .v-emoji { font-size: 36px; margin-bottom: 8px; }
+  .vocab-card .v-english { font-family: 'Fredoka One', cursive; font-size: 15px; color: var(--brown); margin-bottom: 4px; }
+  .vocab-card .v-viet { font-size: 12px; font-weight: 600; opacity: 0.6; }
+
+  .group-drinks .vocab-group-title { background: var(--sky); }
+  .group-drinks .vocab-card { border-color: #e0f5ff; }
+  .group-drinks .vocab-card::before { background: var(--sky); }
+
+  .group-phrases .vocab-group-title { background: var(--mint); color: var(--brown); }
+  .group-phrases .vocab-card { border-color: #e0fff6; }
+  .group-phrases .vocab-card::before { background: var(--mint); }
+
+  .group-barista .vocab-group-title { background: var(--orange); }
+  .group-barista .vocab-card { border-color: #fff2e0; }
+  .group-barista .vocab-card::before { background: var(--orange); }
+
+  .group-numbers .vocab-group-title { background: var(--purple); }
+  .group-numbers .vocab-card { border-color: #f3e0ff; }
+  .group-numbers .vocab-card::before { background: var(--purple); }
+
+  .group-blender .vocab-group-title { background: var(--teal); }
+  .group-blender .vocab-card { border-color: #d0f5f2; }
+  .group-blender .vocab-card::before { background: var(--teal); }
+
+  .group-phrases .v-english, .group-barista .v-english { font-size: 12px; }
+
+  .script-wrapper {
+    padding: 0 16px 40px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .grade-section { margin-bottom: 40px; }
+
+  .grade-header {
+    border-radius: 20px;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .grade-header .grade-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 40px;
+    line-height: 1;
+    opacity: 0.9;
+  }
+
+  .grade-header .grade-info h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 22px;
+  }
+
+  .grade-header .grade-info p {
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  .grade-1-hdr { background: linear-gradient(135deg, #06D6A0, #4CC9F0); color: var(--brown) !important; }
+  .grade-1-hdr .grade-num { color: var(--brown); }
+  .grade-1-hdr .grade-info h3 { color: var(--brown); }
+  .grade-1-hdr .grade-info p { color: rgba(50,30,10,0.75); }
+
+  .grade-2-hdr { background: linear-gradient(135deg, #4CC9F0, #7B2FBE); }
+  .grade-3-hdr { background: linear-gradient(135deg, #FF6B35, #FF6B9D); }
+  .grade-4-hdr { background: linear-gradient(135deg, #7B2FBE, #FF6B9D); }
+  .grade-5-hdr { background: linear-gradient(135deg, #6B3A2A, #FF6B35); }
+
+  .script-card {
+    background: white;
+    border-radius: 22px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+  }
+
+  .script-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    font-weight: 800;
+    font-size: 15px;
+    color: white;
+  }
+
+  .script-top.customer { background: var(--purple); }
+  .script-top.barista  { background: var(--orange); }
+  .script-top.both     { background: linear-gradient(90deg, var(--purple), var(--orange)); }
+  .script-top.blender  { background: linear-gradient(90deg, var(--teal), var(--mint)); color: var(--brown); }
+
+  .script-lines { padding: 0; }
+
+  .script-line {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px dashed #eee;
+  }
+  .script-line:last-child { border-bottom: none; }
+
+  .who {
+    min-width: 110px;
+    padding: 12px 14px;
+    font-weight: 800;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-right: 2px dashed #eee;
+    flex-shrink: 0;
+  }
+
+  .who.c { color: var(--purple); }
+  .who.b { color: var(--orange); }
+
+  .says {
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brown);
+    align-self: center;
+    line-height: 1.6;
+  }
+
+  .blank {
+    display: inline-block;
+    min-width: 80px;
+    border-bottom: 3px solid var(--orange);
+    margin: 0 4px;
+    vertical-align: bottom;
+  }
+
+  .tip-box {
+    margin: 16px 0 0;
+    background: linear-gradient(135deg, #fff9e6, #fff3cc);
+    border-radius: 14px;
+    padding: 14px 18px;
+    border-left: 5px solid var(--sun);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brown);
+  }
+
+  .tip-box .tip-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    color: var(--orange);
+    margin-bottom: 6px;
+  }
+
+  .vocab-hint {
+    background: #f0faff;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 8px 16px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a6e9c;
+    border-left: 4px solid var(--sky);
+  }
+
+  .game-wrapper {
+    padding: 0 16px 40px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .game-card {
+    background: white;
+    border-radius: 22px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+  }
+
+  .game-header {
+    padding: 18px 22px;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .game-1 .game-header { background: linear-gradient(135deg, var(--purple), var(--pink)); }
+  .game-2 .game-header { background: linear-gradient(135deg, var(--orange), var(--sun)); color: var(--brown); }
+  .game-3 .game-header { background: linear-gradient(135deg, var(--mint), var(--sky)); color: var(--brown); }
+  .game-4 .game-header { background: linear-gradient(135deg, var(--teal), #2A9D8F); }
+
+  .game-body {
+    padding: 20px 22px;
+  }
+
+  .game-rule {
+    background: #f8f4ff;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 14px;
+  }
+
+  .game-steps {
+    list-style: none;
+    counter-reset: steps;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .game-steps li {
+    counter-increment: steps;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .game-steps li::before {
+    content: counter(steps);
+    background: var(--brown);
+    color: white;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .sample-phrases {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 2;
+  }
+
+  .flashcard-wrapper {
+    padding: 0 16px 40px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .fc-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 16px 0 8px;
+  }
+
+  .fc-filter-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 13px;
+    padding: 7px 16px;
+    border: 2.5px solid transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    color: var(--brown);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .fc-filter-btn.active, .fc-filter-btn:hover {
+    background: var(--brown);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .fc-print-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 14px;
+    padding: 8px 20px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(255,107,53,0.3);
+  }
+
+  .fc-print-btn:hover { background: #e05a25; transform: translateY(-2px); }
+
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .flashcard {
+    background: white;
+    border-radius: 20px;
+    padding: 22px 16px 18px;
+    text-align: center;
+    box-shadow: 0 5px 16px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 3px solid #eee;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flashcard:hover { transform: translateY(-5px) rotate(-1deg); box-shadow: 0 14px 28px rgba(0,0,0,0.14); }
+
+  .flashcard .fc-cat-label {
+    position: absolute;
+    top: 8px; right: 8px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 7px;
+    border-radius: 6px;
+    color: white;
+  }
+
+  .flashcard .fc-emoji { font-size: 52px; margin-bottom: 10px; display: block; }
+  .flashcard .fc-english { font-family: 'Fredoka One', cursive; font-size: 17px; color: var(--brown); margin-bottom: 6px; line-height: 1.2; }
+  .flashcard .fc-viet { font-size: 12px; font-weight: 700; color: var(--light-brown); }
+
+  .cat-drinks { border-color: #b8e8ff; }
+  .cat-drinks .fc-cat-label { background: var(--sky); }
+  .cat-phrases { border-color: #b8ffe0; }
+  .cat-phrases .fc-cat-label { background: var(--mint); color: var(--brown); }
+  .cat-barista { border-color: #ffd4b8; }
+  .cat-barista .fc-cat-label { background: var(--orange); }
+  .cat-numbers { border-color: #e8d0ff; }
+  .cat-numbers .fc-cat-label { background: var(--purple); }
+  .cat-blender { border-color: #b8f0ee; }
+  .cat-blender .fc-cat-label { background: var(--teal); }
+
+  /* Teacher Plan Styles */
+  .plan-wrapper {
+    padding: 0 16px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .plan-card {
+    background: white;
+    border-radius: 28px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+
+  .plan-card h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .plan-card ul, .plan-card p {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: #4a3b2c;
+    margin-bottom: 12px;
+  }
+
+  .plan-card li {
+    margin-left: 24px;
+    margin-bottom: 8px;
+  }
+
+  .story-box {
+    background: #fff6e5;
+    border-radius: 24px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-size: 15px;
+    line-height: 1.7;
+    border-left: 8px solid var(--orange);
+  }
+
+  .keyword-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+  }
+  .keyword-badge {
+    background: var(--mint);
+    color: var(--brown);
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 13px;
+  }
+
+  .game-idea {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    border-left: 6px solid var(--orange);
+  }
+
+  .print-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 200;
+  }
+
+  .print-btn {
+    background: var(--brown);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 12px 22px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    transition: all 0.2s;
+  }
+
+  .print-btn:hover {
+    background: var(--orange);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(255,107,53,0.35);
+  }
+
+  @media print {
+    .tab-bar, .print-bar, .fc-controls { display: none !important; }
+    .page { display: none !important; }
+    #page-flashcards { display: block !important; }
+    body { background: white; }
+    .hero { display: none; }
+    .flashcard-wrapper { padding: 0; max-width: 100%; }
+    .flashcard-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .flashcard {
+      break-inside: avoid;
+      box-shadow: none;
+      border: 2px solid #ccc !important;
+      border-radius: 12px;
+      padding: 16px 12px;
+    }
+    .flashcard:hover { transform: none; }
+    .fc-emoji { font-size: 40px !important; }
+    .fc-english { font-size: 15px !important; }
+    .fc-viet { font-size: 11px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showPage('menu', this)">☕ Menu</button>
+  <button class="tab-btn" onclick="showPage('vocab', this)">📚 Vocab</button>
+  <button class="tab-btn" onclick="showPage('script', this)">🎭 Scripts</button>
+  <button class="tab-btn" onclick="showPage('games', this)">🎮 Games</button>
+  <button class="tab-btn" onclick="showPage('flashcards', this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showPage('teacherplan', this)">👩‍🏫 Teacher Plan</button>
+</div>
+
+<!-- ==================== MENU ==================== -->
+<div id="page-menu" class="page active">
+  <div class="hero">
+    <span class="hero-emoji">☕</span>
+    <h1>Sunshine Café</h1>
+    <p>✨ Welcome! What would you like today? ✨</p>
+  </div>
+
+  <div class="menu-wrapper">
+    <div class="menu-header">
+      <h2>☀️ Sunshine Café ☀️</h2>
+      <p>All prices in USD · Tất cả giá bằng đô la Mỹ</p>
+    </div>
+    <div class="menu-body">
+
+      <!-- HOT DRINKS -->
+      <div class="menu-category">
+        <div class="menu-cat-title">🔥 Hot Drinks · Đồ uống nóng</div>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <span class="item-emoji">☕</span>
+              <div><div class="item-name">Hot Chocolate</div><div class="item-vn">Sô-cô-la nóng</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge size-s">S</span><span class="size-price">$2</span></div>
+              <div class="size-row"><span class="size-badge size-m">M</span><span class="size-price">$3</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$4</span></div>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <span class="item-emoji">🍵</span>
+              <div><div class="item-name">Green Tea</div><div class="item-vn">Trà xanh</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge size-s">S</span><span class="size-price">$2</span></div>
+              <div class="size-row"><span class="size-badge size-m">M</span><span class="size-price">$3</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$4</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLD DRINKS -->
+      <div class="menu-category">
+        <div class="menu-cat-title">🧊 Cold Drinks · Đồ uống lạnh</div>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="item-info">
+              <span class="item-emoji">🍋</span>
+              <div><div class="item-name">Lemonade</div><div class="item-vn">Nước chanh</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge size-s">S</span><span class="size-price">$2</span></div>
+              <div class="size-row"><span class="size-badge size-m">M</span><span class="size-price">$3</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$4</span></div>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <span class="item-emoji">🧋</span>
+              <div><div class="item-name">Milk Tea</div><div class="item-vn">Trà sữa</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge size-s">S</span><span class="size-price">$3</span></div>
+              <div class="size-row"><span class="size-badge size-m">M</span><span class="size-price">$4</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$5</span></div>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <span class="item-emoji">🍊</span>
+              <div><div class="item-name">Orange Juice</div><div class="item-vn">Nước cam</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge size-s">S</span><span class="size-price">$2</span></div>
+              <div class="size-row"><span class="size-badge size-m">M</span><span class="size-price">$3</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$4</span></div>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="item-info">
+              <span class="item-emoji">🍓</span>
+              <div><div class="item-name">Strawberry Smoothie</div><div class="item-vn">Sinh tố dâu</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge size-s">S</span><span class="size-price">$3</span></div>
+              <div class="size-row"><span class="size-badge size-m">M</span><span class="size-price">$4</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$5</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRESH SMOOTHIES (BLENDER) -->
+      <div class="menu-category">
+        <div class="menu-cat-title" style="color: var(--teal); border-color: var(--teal);">🍹 Fresh Blended Juice · Nước ép tươi</div>
+        <div class="menu-items">
+          <div class="menu-item" style="border-color: #b8f0ee;">
+            <div class="item-info">
+              <span class="item-emoji">🥭</span>
+              <div><div class="item-name">Mango Juice</div><div class="item-vn">Nước xoài</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge" style="background:var(--teal)">M</span><span class="size-price">$4</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$5</span></div>
+            </div>
+          </div>
+          <div class="menu-item" style="border-color: #b8f0ee;">
+            <div class="item-info">
+              <span class="item-emoji">🍌</span>
+              <div><div class="item-name">Banana Smoothie</div><div class="item-vn">Sinh tố chuối</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge" style="background:var(--teal)">M</span><span class="size-price">$4</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$5</span></div>
+            </div>
+          </div>
+          <div class="menu-item" style="border-color: #b8f0ee;">
+            <div class="item-info">
+              <span class="item-emoji">🍍</span>
+              <div><div class="item-name">Pineapple Juice</div><div class="item-vn">Nước dứa</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge" style="background:var(--teal)">M</span><span class="size-price">$4</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$5</span></div>
+            </div>
+          </div>
+          <div class="menu-item" style="border-color: #b8f0ee;">
+            <div class="item-info">
+              <span class="item-emoji">🍉</span>
+              <div><div class="item-name">Watermelon Juice</div><div class="item-vn">Nước dưa hấu</div></div>
+            </div>
+            <div class="item-size-prices">
+              <div class="size-row"><span class="size-badge" style="background:var(--teal)">M</span><span class="size-price">$4</span></div>
+              <div class="size-row"><span class="size-badge size-l">L</span><span class="size-price">$5</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SNACKS -->
+      <div class="menu-category">
+        <div class="menu-cat-title">🍪 Snacks & Treats</div>
+        <div class="menu-items">
+          <div class="menu-item"><div class="item-info"><span class="item-emoji">🍪</span><div><div class="item-name">Cookie</div><div class="item-vn">Bánh quy</div></div></div><div class="item-size-prices"><div style="font-weight:800;font-size:14px;color:var(--brown)">$1 each</div></div></div>
+          <div class="menu-item"><div class="item-info"><span class="item-emoji">🧁</span><div><div class="item-name">Muffin</div><div class="item-vn">Bánh muffin</div></div></div><div class="item-size-prices"><div style="font-weight:800;font-size:14px;color:var(--brown)">$2 each</div></div></div>
+          <div class="menu-item"><div class="item-info"><span class="item-emoji">🥐</span><div><div class="item-name">Croissant</div><div class="item-vn">Bánh sừng bò</div></div></div><div class="item-size-prices"><div style="font-weight:800;font-size:14px;color:var(--brown)">$2 each</div></div></div>
+          <div class="menu-item"><div class="item-info"><span class="item-emoji">🧇</span><div><div class="item-name">Waffle</div><div class="item-vn">Bánh waffle</div></div></div><div class="item-size-prices"><div style="font-weight:800;font-size:14px;color:var(--brown)">$3 each</div></div></div>
+        </div>
+      </div>
+
+      <div class="menu-footer">☀️ Add whipped cream to any drink! (+$1) · 🍹 Fresh juice is made with real fruit in our blender! ☀️</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== VOCABULARY ==================== -->
+<div id="page-vocab" class="page">
+  <div class="hero" style="background: linear-gradient(135deg, var(--mint) 0%, var(--sky) 100%)">
+    <span class="hero-emoji">📚</span>
+    <h1 style="color:var(--brown)">Vocabulary</h1>
+    <p style="color:rgba(0,0,0,0.6)">🌈 Tap a card to learn! 🌈</p>
+  </div>
+
+  <div class="vocab-wrapper">
+
+    <div class="vocab-group group-drinks">
+      <div class="vocab-group-title">☕ Drinks & Food</div>
+      <div class="vocab-cards">
+        <div class="vocab-card"><div class="v-emoji">☕</div><div class="v-english">Hot Chocolate</div><div class="v-viet">Sô-cô-la nóng</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍋</div><div class="v-english">Lemonade</div><div class="v-viet">Nước chanh</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍊</div><div class="v-english">Orange Juice</div><div class="v-viet">Nước cam</div></div>
+        <div class="vocab-card"><div class="v-emoji">🧋</div><div class="v-english">Milk Tea</div><div class="v-viet">Trà sữa</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍓</div><div class="v-english">Smoothie</div><div class="v-viet">Sinh tố</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍵</div><div class="v-english">Green Tea</div><div class="v-viet">Trà xanh</div></div>
+        <div class="vocab-card"><div class="v-emoji">🥭</div><div class="v-english">Mango Juice</div><div class="v-viet">Nước xoài</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍌</div><div class="v-english">Banana Smoothie</div><div class="v-viet">Sinh tố chuối</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍉</div><div class="v-english">Watermelon Juice</div><div class="v-viet">Nước dưa hấu</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍪</div><div class="v-english">Cookie</div><div class="v-viet">Bánh quy</div></div>
+        <div class="vocab-card"><div class="v-emoji">🧁</div><div class="v-english">Muffin</div><div class="v-viet">Bánh muffin</div></div>
+        <div class="vocab-card"><div class="v-emoji">🥐</div><div class="v-english">Croissant</div><div class="v-viet">Bánh sừng bò</div></div>
+      </div>
+    </div>
+
+    <div class="vocab-group group-phrases">
+      <div class="vocab-group-title">🙋 Customer Phrases</div>
+      <div class="vocab-cards">
+        <div class="vocab-card"><div class="v-emoji">🙋</div><div class="v-english">Can I have…?</div><div class="v-viet">Cho tôi… được không?</div></div>
+        <div class="vocab-card"><div class="v-emoji">😊</div><div class="v-english">I'd like…</div><div class="v-viet">Tôi muốn…</div></div>
+        <div class="vocab-card"><div class="v-emoji">💰</div><div class="v-english">How much is it?</div><div class="v-viet">Bao nhiêu tiền?</div></div>
+        <div class="vocab-card"><div class="v-emoji">🤲</div><div class="v-english">Here you go!</div><div class="v-viet">Đây ạ!</div></div>
+        <div class="vocab-card"><div class="v-emoji">🙏</div><div class="v-english">Thank you!</div><div class="v-viet">Cảm ơn!</div></div>
+        <div class="vocab-card"><div class="v-emoji">📏</div><div class="v-english">Small / Medium / Large</div><div class="v-viet">Nhỏ / Vừa / Lớn</div></div>
+        <div class="vocab-card"><div class="v-emoji">🏠</div><div class="v-english">For here, please.</div><div class="v-viet">Uống ở đây ạ.</div></div>
+        <div class="vocab-card"><div class="v-emoji">🛍️</div><div class="v-english">To go, please.</div><div class="v-viet">Mang về ạ.</div></div>
+        <div class="vocab-card"><div class="v-emoji">😮</div><div class="v-english">Excuse me…</div><div class="v-viet">Xin lỗi…</div></div>
+        <div class="vocab-card"><div class="v-emoji">🔄</div><div class="v-english">Can I change my order?</div><div class="v-viet">Tôi đổi món được không?</div></div>
+        <div class="vocab-card"><div class="v-emoji">⭐</div><div class="v-english">What do you recommend?</div><div class="v-viet">Bạn gợi ý gì?</div></div>
+        <div class="vocab-card"><div class="v-emoji">➕</div><div class="v-english">Can I also have…?</div><div class="v-viet">Tôi có thể lấy thêm…?</div></div>
+      </div>
+    </div>
+
+    <div class="vocab-group group-barista">
+      <div class="vocab-group-title">👩‍🍳 Barista Phrases</div>
+      <div class="vocab-cards">
+        <div class="vocab-card"><div class="v-emoji">👋</div><div class="v-english">Welcome! / Hello!</div><div class="v-viet">Xin chào!</div></div>
+        <div class="vocab-card"><div class="v-emoji">📋</div><div class="v-english">Can I take your order?</div><div class="v-viet">Bạn muốn gọi gì ạ?</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍹</div><div class="v-english">What can I get for you?</div><div class="v-viet">Bạn muốn dùng gì?</div></div>
+        <div class="vocab-card"><div class="v-emoji">📏</div><div class="v-english">What size would you like?</div><div class="v-viet">Bạn muốn size nào?</div></div>
+        <div class="vocab-card"><div class="v-emoji">🏠</div><div class="v-english">For here or to go?</div><div class="v-viet">Uống ở đây hay mang về?</div></div>
+        <div class="vocab-card"><div class="v-emoji">➕</div><div class="v-english">Would you like anything else?</div><div class="v-viet">Bạn cần thêm gì không?</div></div>
+        <div class="vocab-card"><div class="v-emoji">💵</div><div class="v-english">That will be ___ dollars.</div><div class="v-viet">Tổng cộng ___ đô ạ.</div></div>
+        <div class="vocab-card"><div class="v-emoji">💸</div><div class="v-english">Here's your change.</div><div class="v-viet">Tiền thối đây ạ.</div></div>
+        <div class="vocab-card"><div class="v-emoji">⏳</div><div class="v-english">Coming right up!</div><div class="v-viet">Đợi một chút ạ!</div></div>
+        <div class="vocab-card"><div class="v-emoji">☕</div><div class="v-english">Enjoy your drink!</div><div class="v-viet">Thưởng thức nhé!</div></div>
+        <div class="vocab-card"><div class="v-emoji">😬</div><div class="v-english">I'm sorry, we don't have that.</div><div class="v-viet">Xin lỗi, hết rồi ạ.</div></div>
+        <div class="vocab-card"><div class="v-emoji">💡</div><div class="v-english">I recommend the ___!</div><div class="v-viet">Tôi gợi ý ___ ạ!</div></div>
+      </div>
+    </div>
+
+    <div class="vocab-group group-blender">
+      <div class="vocab-group-title">🍹 Blender Words</div>
+      <div class="vocab-cards">
+        <div class="vocab-card"><div class="v-emoji">🍹</div><div class="v-english">Blender</div><div class="v-viet">Máy xay sinh tố</div></div>
+        <div class="vocab-card"><div class="v-emoji">🫙</div><div class="v-english">Blend!</div><div class="v-viet">Xay!</div></div>
+        <div class="vocab-card"><div class="v-emoji">🫗</div><div class="v-english">Pour</div><div class="v-viet">Rót</div></div>
+        <div class="vocab-card"><div class="v-emoji">➕</div><div class="v-english">Add</div><div class="v-viet">Thêm vào</div></div>
+        <div class="vocab-card"><div class="v-emoji">🧊</div><div class="v-english">Ice</div><div class="v-viet">Đá</div></div>
+        <div class="vocab-card"><div class="v-emoji">🥛</div><div class="v-english">Milk</div><div class="v-viet">Sữa</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍯</div><div class="v-english">Honey</div><div class="v-viet">Mật ong</div></div>
+        <div class="vocab-card"><div class="v-emoji">🥭</div><div class="v-english">Mango</div><div class="v-viet">Xoài</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍌</div><div class="v-english">Banana</div><div class="v-viet">Chuối</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍓</div><div class="v-english">Strawberry</div><div class="v-viet">Dâu tây</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍍</div><div class="v-english">Pineapple</div><div class="v-viet">Dứa / Thơm</div></div>
+        <div class="vocab-card"><div class="v-emoji">🍉</div><div class="v-english">Watermelon</div><div class="v-viet">Dưa hấu</div></div>
+      </div>
+    </div>
+
+    <div class="vocab-group group-numbers">
+      <div class="vocab-group-title">💵 Money & Numbers</div>
+      <div class="vocab-cards">
+        <div class="vocab-card"><div class="v-emoji">1️⃣</div><div class="v-english">One dollar</div><div class="v-viet">Một đô</div></div>
+        <div class="vocab-card"><div class="v-emoji">2️⃣</div><div class="v-english">Two dollars</div><div class="v-viet">Hai đô</div></div>
+        <div class="vocab-card"><div class="v-emoji">3️⃣</div><div class="v-english">Three dollars</div><div class="v-viet">Ba đô</div></div>
+        <div class="vocab-card"><div class="v-emoji">4️⃣</div><div class="v-english">Four dollars</div><div class="v-viet">Bốn đô</div></div>
+        <div class="vocab-card"><div class="v-emoji">5️⃣</div><div class="v-english">Five dollars</div><div class="v-viet">Năm đô</div></div>
+        <div class="vocab-card"><div class="v-emoji">💸</div><div class="v-english">Here's your change.</div><div class="v-viet">Tiền thối đây ạ.</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== SCRIPTS ==================== -->
+<div id="page-script" class="page">
+  <div class="hero" style="background: linear-gradient(135deg, var(--purple), var(--pink))">
+    <span class="hero-emoji">🎭</span>
+    <h1>Role-Play Scripts</h1>
+    <p>🎬 Grade 1 → Grade 5 · Easy to Hard! 🎬</p>
+  </div>
+
+  <div class="script-wrapper">
+
+    <!-- GRADE 1 -->
+    <div class="grade-section">
+      <div class="grade-header grade-1-hdr">
+        <div class="grade-num">G1</div>
+        <div class="grade-info">
+          <h3>🌱 First Words – Point & Say</h3>
+          <p>Super simple! Use pictures. Point and say one word at a time.</p>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">☀️ Script 1A: My First Order (Point & Say)</div>
+        <div class="vocab-hint">🔑 Key words: juice · cookie · please · thank you</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Hi! 👋 What do you want? <em>(points to menu pictures)</em></div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says"><strong>Juice</strong>, please. <em>(points to the picture)</em></div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Orange juice? <em>(holds up orange)</em></div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Yes, please! 😊</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Here you go! <em>(hands pretend cup)</em></div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Thank you! 🙏</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">You're welcome! Bye bye! 👋</div></div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">🍪 Script 1B: I Want a Cookie!</div>
+        <div class="vocab-hint">🔑 Key words: cookie · muffin · one · two · yes / no</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Hello! What do you want?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">I want a <strong>cookie</strong>. <em>(holds up 1 finger)</em></div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">One cookie? <em>(holds up 1 finger)</em></div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Yes! One cookie, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">That's <strong>one dollar</strong>! <em>(shows $1 card)</em></div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Here! <em>(hands fake $1)</em></div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Thank you! Enjoy! 🍪</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRADE 2 -->
+    <div class="grade-section">
+      <div class="grade-header grade-2-hdr">
+        <div class="grade-num">G2</div>
+        <div class="grade-info">
+          <h3>🌿 Simple Sentences</h3>
+          <p>Use full sentences. Follow the script carefully.</p>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">🍊 Script 2A: Can I Have…? (Full Script)</div>
+        <div class="vocab-hint">🔑 Key phrases: "Can I have…?" · small/medium/large · "That's ___ dollars."</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Hello! Welcome to Sunshine Café! Can I take your order?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Hi! Can I have an <strong>orange juice</strong>, please?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Sure! What size? Small, medium, or large?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says"><strong>Small</strong>, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">That's <strong>2 dollars</strong>, please.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Here you go! <em>(hands fake $2)</em></div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Thank you! Here's your orange juice! Enjoy! 🍊</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Thank you! Bye!</div></div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">🍪 Script 2B: Drink + Snack Combo</div>
+        <div class="vocab-hint">🔑 Key phrases: "Can I also have…?" · numbers 1–5</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Hi! What can I get for you?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Can I have a <strong>milk tea</strong>, please?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Small, medium, or large?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Medium, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Would you like anything else?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Can I also have a <strong>cookie</strong>, please?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Of course! That's <strong>5 dollars</strong> in total.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Here you go! <em>(hands $5)</em></div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Thank you! Enjoy your milk tea and cookie! 😊</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRADE 3 -->
+    <div class="grade-section">
+      <div class="grade-header grade-3-hdr">
+        <div class="grade-num">G3</div>
+        <div class="grade-info">
+          <h3>🌳 Fill in the Blanks</h3>
+          <p>Choose your own drink, size, and handle money!</p>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">🌟 Script 3A: Choose Your Own Order</div>
+        <div class="vocab-hint">🔑 Fill the blanks with your own choices! / Điền vào chỗ trống theo ý bạn!</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Hello! Welcome to Sunshine Café! Can I take your order?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Hi! Can I have a <span class="blank"></span>, please?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">What size would you like? Small, medium, or large?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says"><span class="blank"></span>, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">For here or to go?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says"><span class="blank"></span>, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Would you like anything else?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">No, thank you. How much is it?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">That will be <span class="blank"></span> dollars, please.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Here you go! <em>(hands money)</em></div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Here's your change! Enjoy your <span class="blank"></span>! 😊</div></div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">😮 Script 3B: Wrong Order! Problem Solving</div>
+        <div class="vocab-hint">🔑 Key phrase: "Excuse me, I ordered ___, not ___."</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Can I have a medium lemonade, please?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Sure! Coming right up! … Here you go! <em>(gives wrong drink)</em></div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Excuse me! I ordered a <strong>lemonade</strong>, not an <strong>orange juice</strong>.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Oh! I'm so sorry! Here is your lemonade!</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Thank you! No problem!</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Enjoy your drink! Sorry again! 😊</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRADE 4 -->
+    <div class="grade-section">
+      <div class="grade-header grade-4-hdr">
+        <div class="grade-num">G4</div>
+        <div class="grade-info">
+          <h3>🍀 Customize & Recommend</h3>
+          <p>Ask for extras, make suggestions, handle "not available"!</p>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">⭐ Script 4A: What Do You Recommend?</div>
+        <div class="vocab-hint">🔑 Key phrases: "What do you recommend?" · "I recommend…" · "Would you like to add…?"</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Hi there! Welcome to Sunshine Café! What can I get for you today?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Hmm… I'm not sure. What do you recommend?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">I recommend the <strong>mango juice</strong>! It's very fresh and delicious!</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">That sounds great! I'd like a medium mango juice, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">For here or to go?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">For here, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Would you like to add whipped cream? It's only one dollar more!</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Yes, please! That sounds yummy!</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">That will be <strong>5 dollars</strong> in total.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Here's 5 dollars. Thank you!</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Coming right up! Enjoy your drink! ⭐</div></div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">🙈 Script 4B: Sorry, We Don't Have That!</div>
+        <div class="vocab-hint">🔑 Key phrases: "I'm sorry, we're out of…" · "Instead, can I have…?"</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Hi! I'd like a large pineapple juice, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">I'm sorry, we're out of pineapple juice today.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Oh no! What do you have?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">We have mango juice, watermelon juice, and banana smoothie.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Okay! Instead, can I have a large <strong>mango juice</strong>?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Great choice! That's <strong>5 dollars</strong>, please.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Here you go!</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Thank you! Enjoy your mango juice! 🥭</div></div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top blender">🍹 Script 4C: Ordering Fresh Blended Juice</div>
+        <div class="vocab-hint">🔑 Blender vocabulary: blend · pour · add · ice · fruit names</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Hi! Can I have a fresh banana smoothie, please?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Sure! Do you want ice in your smoothie?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Yes, please! With ice and honey.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Perfect! <em>First, I add the banana… then I add ice… then I add honey… then I blend! 🌀</em></div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Wow! It looks delicious!</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Here you go! I pour it in your cup! One banana smoothie with honey! 🍌</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Thank you so much! How much is it?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">That's 4 dollars, please.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRADE 5 -->
+    <div class="grade-section">
+      <div class="grade-header grade-5-hdr">
+        <div class="grade-num">G5</div>
+        <div class="grade-info">
+          <h3>🌟 Free Talk – No Script!</h3>
+          <p>Natural conversation. Handle complex situations. Be creative!</p>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">💎 Script 5A: Group Order (3 People)</div>
+        <div class="vocab-hint">🔑 New phrases: "I'll have…" · "Can we have a table for 3?" · "Can we get the bill?" · "Let's split it!"</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who c">🧒 Customer 1</div><div class="says">Excuse me! Can we have a table for three, please?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Of course! Right this way. Are you ready to order?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer 1</div><div class="says">I'll have a large strawberry smoothie, please.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer 2</div><div class="says">I'd like a medium milk tea with extra whipped cream, please.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer 3</div><div class="says">Can I have a hot chocolate and a muffin? Small size, please.</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Great! So that's one large strawberry smoothie, one medium milk tea with whipped cream, and one small hot chocolate with a muffin. Is that right?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customers</div><div class="says">Yes, that's right! Thank you!</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Your total is <strong>14 dollars</strong>. Would you like to pay together or separately?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer 1</div><div class="says">Let's split it! That's about 5 dollars each.</div></div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top blender">🍹 Script 5B: Create Your Own Blended Juice!</div>
+        <div class="vocab-hint">🔑 Advanced challenge: design a NEW smoothie. Describe it. The barista makes it live!</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Hi! I want to make my OWN smoothie. Is that possible?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Of course! What fruits would you like?</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Can I have mango, banana, and a little honey? Oh, and ice please!</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Great combo! Let me make it for you. First, I add the mango… then the banana… I add honey and ice… and now I blend! <em>🌀 vrrrr!</em></div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">It smells amazing! What do I call this drink?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">You can name it yourself! It's YOUR special drink! 🌟</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Let's call it a "Tropical Sunshine"! How much?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">For a custom blend, that's <strong>5 dollars</strong>. Great name, by the way! 😄</div></div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-top both">💸 Script 5C: Not Enough Money + Problem Solving</div>
+        <div class="vocab-hint">🔑 Key phrases: "I only have…" · "Is there a smaller size?" · "Can I pay with…?"</div>
+        <div class="script-lines">
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Hi! Can I have a large watermelon juice and a waffle, please?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Sure! That will be <strong>8 dollars</strong> in total.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Oh… I only have 6 dollars. Is there a smaller size for the juice?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Yes! A medium watermelon juice is 4 dollars. With the waffle, that's <strong>7 dollars</strong>.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Hmm, I still don't have enough. Can I skip the waffle and get a cookie instead?</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">Of course! A medium watermelon juice and one cookie is <strong>5 dollars</strong>.</div></div>
+          <div class="script-line"><div class="who c">🧒 Customer</div><div class="says">Perfect! Here's 5 dollars. Thank you for your help!</div></div>
+          <div class="script-line"><div class="who b">👩 Barista</div><div class="says">No problem at all! Enjoy your drink and cookie! 🍉🍪</div></div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-title">🏆 Grade 5 Assessment Criteria</div>
+        ⭐ Fluency: Nói trơn tru, ít dừng<br>
+        ⭐ Vocabulary: Dùng đúng từ, phong phú<br>
+        ⭐ Confidence: Tự tin, giọng to<br>
+        ⭐ Problem Solving: Xử lý tình huống thông minh<br>
+        ⭐ Creativity: Thêm câu hay, không dùng câu mẫu cứng nhắc
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== GAMES ==================== -->
+<div id="page-games" class="page">
+  <div class="hero" style="background: linear-gradient(135deg, var(--sun), var(--orange))">
+    <span class="hero-emoji" style="animation-duration:1s">🎮</span>
+    <h1 style="color:var(--brown)">Game Time!</h1>
+    <p style="color:rgba(0,0,0,0.6)">🎉 Fun ways to practice English! 🎉</p>
+  </div>
+
+  <div class="game-wrapper">
+    <div class="section-title">Today's Activities <span class="dot" style="background:var(--sun)"></span></div>
+
+    <div class="game-card game-4">
+      <div class="game-header">🍹 Activity 1: Real Blender Juice Station!</div>
+      <div class="game-body">
+        <div class="game-rule">Students make REAL fruit juice with the blender! Practice English while doing it! 🍹</div>
+        <ul class="game-steps">
+          <li>Teacher sets up the "Fresh Juice Station" with real fruits: mango, banana, strawberry, watermelon + blender, cups, honey, ice.</li>
+          <li>Student is the "Barista". Other students are "Customers" and ORDER in English from the blender menu.</li>
+          <li>The Barista-student must <strong>say each step aloud</strong> while making the juice: "I add the mango… I add ice… I blend!"</li>
+          <li>When juice is ready, pour into cups and say: "Here is your fresh mango juice! Enjoy!"</li>
+          <li>Rotate so every student gets a turn as barista. The whole class gets to taste! 🎉</li>
+        </ul>
+        <div class="sample-phrases">
+          <p>
+            🗣️ Customer: "Can I have a mango and banana smoothie with honey, please?"<br>
+            🗣️ Barista: "Sure! First, I add the mango… then the banana… I add honey… and ice… I blend! Here you go!"<br>
+            🗣️ Customer: "Wow, it looks delicious! Thank you!"<br>
+            🗣️ Barista: "Enjoy your tropical smoothie! That's 4 dollars please!"
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-card game-1">
+      <div class="game-header">🔮 Game 2: Mystery Order</div>
+      <div class="game-body">
+        <div class="game-rule">One player thinks of a drink/food. Others ask Yes/No questions to guess!</div>
+        <ul class="game-steps">
+          <li>One student is the "Mystery Customer" – pick a secret item from the menu.</li>
+          <li>Other students ask YES or NO questions to guess the item.</li>
+          <li>Whoever guesses correctly becomes the next Mystery Customer!</li>
+          <li>The teacher counts how many questions it takes – fewer = better!</li>
+        </ul>
+        <div class="sample-phrases">
+          <p>
+            🗣️ "Is it hot?" → "No!"<br>
+            🗣️ "Is it sweet?" → "Yes!"<br>
+            🗣️ "Is it a fresh blended juice?" → "Yes!"<br>
+            🗣️ "Is it a mango juice?" → "YES! 🎉"
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-card game-2">
+      <div class="game-header">🤪 Game 3: Crazy Café!</div>
+      <div class="game-body">
+        <div class="game-rule">The teacher gives fun, silly situations! Students must respond in English.</div>
+        <ul class="game-steps">
+          <li>Teacher gives the "Barista" a secret challenge card.</li>
+          <li>The "Customer" tries to order normally but something goes WRONG!</li>
+          <li>Students must solve the problem using English.</li>
+          <li>Funniest/best solution gets a bonus sticker! ⭐</li>
+        </ul>
+        <div class="sample-phrases">
+          <p>
+            😂 Challenge 1: The blender is broken! "I'm sorry, we can't make fresh juice today!"<br>
+            😂 Challenge 2: Customer orders a drink that doesn't exist! "A rainbow smoothie?!"<br>
+            😂 Challenge 3: Barista gives the wrong fruit! Mango instead of watermelon!<br>
+            😂 Challenge 4: Customer has only coins, no bills! How many dollars is it?
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-card game-3">
+      <div class="game-header">⚡ Game 4: Speed Order!</div>
+      <div class="game-body">
+        <div class="game-rule">How fast can you order AND describe your smoothie? Race against the clock! ⏱️</div>
+        <ul class="game-steps">
+          <li>Set a timer for 45 seconds.</li>
+          <li>Student must complete a FULL café conversation including a blended juice order in 45 seconds!</li>
+          <li>Must include: greeting, order (with fruit names), size, pay, and goodbye.</li>
+          <li>If they finish in time – STICKER! If not – try again!</li>
+        </ul>
+        <div class="sample-phrases">
+          <p>
+            ✅ Must say: "Hi!" + drink/fruit name + size + "How much?" + "Here you go!" + "Enjoy!" + "Bye!"<br>
+            🏆 Bonus point: If they describe the blending steps correctly!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">🎁 Reward System</div>
+      🌟 Mỗi câu đúng = 1 sticker<br>
+      🌟🌟 Hoàn thành cả conversation = 2 stickers<br>
+      🍹 Mô tả đúng các bước xay sinh tố = 1 bonus sticker<br>
+      🏆 Star Barista of the Day = huy hiệu đặc biệt + ảnh trên bảng danh dự!
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FLASHCARDS ==================== -->
+<div id="page-flashcards" class="page">
+  <div class="hero" style="background: linear-gradient(135deg, var(--sky), var(--purple))">
+    <span class="hero-emoji">🃏</span>
+    <h1>Flashcards</h1>
+    <p>🖨️ Print & Cut · Học mọi lúc mọi nơi! 🖨️</p>
+  </div>
+
+  <div class="flashcard-wrapper">
+    <div class="fc-controls">
+      <button class="fc-filter-btn active" onclick="filterCards('all', this)">All</button>
+      <button class="fc-filter-btn" onclick="filterCards('drinks', this)">☕ Drinks</button>
+      <button class="fc-filter-btn" onclick="filterCards('blender', this)">🍹 Blender</button>
+      <button class="fc-filter-btn" onclick="filterCards('phrases', this)">🙋 Customer</button>
+      <button class="fc-filter-btn" onclick="filterCards('barista', this)">👩‍🍳 Barista</button>
+      <button class="fc-filter-btn" onclick="filterCards('numbers', this)">💵 Money</button>
+      <button class="fc-print-btn" onclick="printFlashcards()">🖨️ Print Flashcards</button>
+    </div>
+
+    <div class="flashcard-grid" id="flashcard-grid">
+      <!-- DRINKS -->
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">☕</span><div class="fc-english">Hot Chocolate</div><div class="fc-viet">Sô-cô-la nóng</div></div>
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">🍋</span><div class="fc-english">Lemonade</div><div class="fc-viet">Nước chanh</div></div>
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">🍊</span><div class="fc-english">Orange Juice</div><div class="fc-viet">Nước cam</div></div>
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">🧋</span><div class="fc-english">Milk Tea</div><div class="fc-viet">Trà sữa</div></div>
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">🍓</span><div class="fc-english">Smoothie</div><div class="fc-viet">Sinh tố</div></div>
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">🍵</span><div class="fc-english">Green Tea</div><div class="fc-viet">Trà xanh</div></div>
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">🍪</span><div class="fc-english">Cookie</div><div class="fc-viet">Bánh quy</div></div>
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">🧁</span><div class="fc-english">Muffin</div><div class="fc-viet">Bánh muffin</div></div>
+      <div class="flashcard cat-drinks" data-cat="drinks"><span class="fc-cat-label">Drinks</span><span class="fc-emoji">🥐</span><div class="fc-english">Croissant</div><div class="fc-viet">Bánh sừng bò</div></div>
+
+      <!-- BLENDER WORDS -->
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🍹</span><div class="fc-english">Blender</div><div class="fc-viet">Máy xay sinh tố</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🫙</span><div class="fc-english">Blend!</div><div class="fc-viet">Xay!</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🫗</span><div class="fc-english">Pour</div><div class="fc-viet">Rót</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">➕</span><div class="fc-english">Add</div><div class="fc-viet">Thêm vào</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🧊</span><div class="fc-english">Ice</div><div class="fc-viet">Đá</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🥛</span><div class="fc-english">Milk</div><div class="fc-viet">Sữa</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🍯</span><div class="fc-english">Honey</div><div class="fc-viet">Mật ong</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🥭</span><div class="fc-english">Mango</div><div class="fc-viet">Xoài</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🍌</span><div class="fc-english">Banana</div><div class="fc-viet">Chuối</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🍓</span><div class="fc-english">Strawberry</div><div class="fc-viet">Dâu tây</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🍍</span><div class="fc-english">Pineapple</div><div class="fc-viet">Dứa / Thơm</div></div>
+      <div class="flashcard cat-blender" data-cat="blender"><span class="fc-cat-label">Blender</span><span class="fc-emoji">🍉</span><div class="fc-english">Watermelon</div><div class="fc-viet">Dưa hấu</div></div>
+
+      <!-- CUSTOMER PHRASES -->
+      <div class="flashcard cat-phrases" data-cat="phrases"><span class="fc-cat-label">Customer</span><span class="fc-emoji">🙋</span><div class="fc-english">Can I have…?</div><div class="fc-viet">Cho tôi… được không?</div></div>
+      <div class="flashcard cat-phrases" data-cat="phrases"><span class="fc-cat-label">Customer</span><span class="fc-emoji">😊</span><div class="fc-english">I'd like…</div><div class="fc-viet">Tôi muốn…</div></div>
+      <div class="flashcard cat-phrases" data-cat="phrases"><span class="fc-cat-label">Customer</span><span class="fc-emoji">💰</span><div class="fc-english">How much is it?</div><div class="fc-viet">Bao nhiêu tiền?</div></div>
+      <div class="flashcard cat-phrases" data-cat="phrases"><span class="fc-cat-label">Customer</span><span class="fc-emoji">🤲</span><div class="fc-english">Here you go!</div><div class="fc-viet">Đây ạ!</div></div>
+      <div class="flashcard cat-phrases" data-cat="phrases"><span class="fc-cat-label">Customer</span><span class="fc-emoji">📏</span><div class="fc-english">Small / Medium / Large</div><div class="fc-viet">Nhỏ / Vừa / Lớn</div></div>
+      <div class="flashcard cat-phrases" data-cat="phrases"><span class="fc-cat-label">Customer</span><span class="fc-emoji">🏠</span><div class="fc-english">For here, please.</div><div class="fc-viet">Uống ở đây ạ.</div></div>
+      <div class="flashcard cat-phrases" data-cat="phrases"><span class="fc-cat-label">Customer</span><span class="fc-emoji">😮</span><div class="fc-english">Excuse me!</div><div class="fc-viet">Xin lỗi!</div></div>
+      <div class="flashcard cat-phrases" data-cat="phrases"><span class="fc-cat-label">Customer</span><span class="fc-emoji">⭐</span><div class="fc-english">What do you recommend?</div><div class="fc-viet">Bạn gợi ý gì?</div></div>
+
+      <!-- BARISTA PHRASES -->
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">👋</span><div class="fc-english">Welcome! / Hello!</div><div class="fc-viet">Xin chào!</div></div>
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">📋</span><div class="fc-english">Can I take your order?</div><div class="fc-viet">Bạn muốn gọi gì ạ?</div></div>
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">📏</span><div class="fc-english">What size would you like?</div><div class="fc-viet">Bạn muốn size nào?</div></div>
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">🏠</span><div class="fc-english">For here or to go?</div><div class="fc-viet">Ở đây hay mang về?</div></div>
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">➕</span><div class="fc-english">Would you like anything else?</div><div class="fc-viet">Bạn cần thêm gì không?</div></div>
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">⏳</span><div class="fc-english">Coming right up!</div><div class="fc-viet">Đợi một chút ạ!</div></div>
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">☕</span><div class="fc-english">Enjoy your drink!</div><div class="fc-viet">Thưởng thức nhé!</div></div>
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">😬</span><div class="fc-english">Sorry, we don't have that.</div><div class="fc-viet">Xin lỗi, hết rồi ạ.</div></div>
+      <div class="flashcard cat-barista" data-cat="barista"><span class="fc-cat-label">Barista</span><span class="fc-emoji">💡</span><div class="fc-english">I recommend the ___!</div><div class="fc-viet">Tôi gợi ý ___ ạ!</div></div>
+
+      <!-- NUMBERS -->
+      <div class="flashcard cat-numbers" data-cat="numbers"><span class="fc-cat-label">Money</span><span class="fc-emoji">1️⃣</span><div class="fc-english">One dollar</div><div class="fc-viet">Một đô</div></div>
+      <div class="flashcard cat-numbers" data-cat="numbers"><span class="fc-cat-label">Money</span><span class="fc-emoji">2️⃣</span><div class="fc-english">Two dollars</div><div class="fc-viet">Hai đô</div></div>
+      <div class="flashcard cat-numbers" data-cat="numbers"><span class="fc-cat-label">Money</span><span class="fc-emoji">3️⃣</span><div class="fc-english">Three dollars</div><div class="fc-viet">Ba đô</div></div>
+      <div class="flashcard cat-numbers" data-cat="numbers"><span class="fc-cat-label">Money</span><span class="fc-emoji">4️⃣</span><div class="fc-english">Four dollars</div><div class="fc-viet">Bốn đô</div></div>
+      <div class="flashcard cat-numbers" data-cat="numbers"><span class="fc-cat-label">Money</span><span class="fc-emoji">5️⃣</span><div class="fc-english">Five dollars</div><div class="fc-viet">Năm đô</div></div>
+      <div class="flashcard cat-numbers" data-cat="numbers"><span class="fc-cat-label">Money</span><span class="fc-emoji">💸</span><div class="fc-english">Here's your change.</div><div class="fc-viet">Tiền thối đây ạ.</div></div>
+      <div class="flashcard cat-numbers" data-cat="numbers"><span class="fc-cat-label">Money</span><span class="fc-emoji">🧾</span><div class="fc-english">That's ___ dollars.</div><div class="fc-viet">Tổng cộng ___ đô ạ.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TEACHER PLAN (UPDATED with story, key words, conversation focus, teacher-only blender demo) ==================== -->
+<div id="page-teacherplan" class="page">
+  <div class="hero" style="background: linear-gradient(135deg, var(--teal), var(--purple))">
+    <span class="hero-emoji">📖</span>
+    <h1>Teacher's Guide – English Club</h1>
+    <p>Story, key words, conversation games & a live blender demo! ☕🍹</p>
+  </div>
+  <div class="plan-wrapper">
+
+    <!-- Story Introduction -->
+    <div class="plan-card">
+      <h2>🇻🇳 Once upon a time, in Vietnam...</h2>
+      <div class="story-box">
+        <p>Over 150 years ago, in <strong>1857</strong>, visitors from France brought a special gift: a small green coffee tree. They looked at the high, misty mountains and the rich, red soil of Vietnam and thought, <em>"This is the perfect home for coffee!"</em> They were right. Before long, thousands of coffee trees were growing across the hills, covered in white flowers that smelled like jasmine.</p>
+        <p>But there was a small problem. In those days, there were no refrigerators! Fresh milk would turn sour very quickly in the hot, tropical sun. The Vietnamese people were clever, though. They found a silver tin of <strong>thick, sweet condensed milk</strong> that stayed fresh even in the heat. They poured the gooey, white milk into the bottom of a glass and let the dark, strong coffee drip on top. When they stirred it together with ice, they created <strong>Cà Phê Sữa Đá</strong>—a drink that tastes like a coffee milkshake!</p>
+        <p>As the years went by, coffee became the heartbeat of Vietnam. It wasn't just a drink; it became a way to make friends. People didn't want to hide inside big, quiet buildings. Instead, they put <strong>tiny plastic stools</strong> out on the sidewalk. Everyone—grandparents, students, and workers—sat together on these little chairs, side-by-side.</p>
+        <p>They used a special metal tool called a <strong>Phin</strong>. It sits on top of the cup like a little silver hat. Instead of rushing, people learned to be patient. They would sit and talk, watching the coffee go <em>drip... drip... drip...</em> into their glass while hundreds of motorbikes zoomed past them like a busy river.</p>
+        <p>Today, Vietnam is famous all over the world for its coffee. From the "Egg Coffee" in the north that tastes like sweet yellow cake, to the icy drinks in the sunny south, coffee is how Vietnam says "hello." Even though it's a drink for grown-ups, every child in Vietnam knows the wonderful smell of roasted beans and chocolate that fills the air every morning!</p>
+      </div>
+    </div>
+
+    <!-- Key Words (most important for coffee shops) -->
+    <div class="plan-card">
+      <h2>🔑 Key Words for Our Café</h2>
+      <div class="keyword-grid">
+        <span class="keyword-badge">☕ Coffee / Cà phê</span>
+        <span class="keyword-badge">🥛 Condensed milk / Sữa đặc</span>
+        <span class="keyword-badge">🧊 Ice / Đá</span>
+        <span class="keyword-badge">🍹 Blender / Máy xay</span>
+        <span class="keyword-badge">➕ Add / Thêm</span>
+        <span class="keyword-badge">🫙 Blend / Xay</span>
+        <span class="keyword-badge">🫗 Pour / Rót</span>
+        <span class="keyword-badge">💵 How much? / Bao nhiêu?</span>
+        <span class="keyword-badge">🙋 Can I have…? / Cho tôi…</span>
+        <span class="keyword-badge">👩‍🍳 Barista</span>
+      </div>
+      <p><strong>Teacher tip:</strong> Before starting, hold up each keyword card (or point to the word on screen). Say the word twice, then have the whole class repeat. Add a simple gesture for each one (e.g., for “blend” – shake your fists; for “pour” – tilt your hand). This physical action locks the words into memory!</p>
+    </div>
+
+    <!-- MAIN ACTIVITIES: Conversation focus, teacher blender demo -->
+    <div class="plan-card">
+      <h2>🎭 Main Section: Barista – Customer Conversations</h2>
+      <p><strong>Goal:</strong> Every student speaks English in a real‑life café setting. Teacher first models, then students practice in pairs, then whole group.</p>
+      <ul>
+        <li><strong>👩‍🏫 Teacher – Student Demo (5 min):</strong> The teacher acts as a customer, and a confident student acts as barista. Use the menu on screen. The teacher asks: “Can I have a mango juice, please?” Student barista answers: “Small, medium or large?” → “Medium.” → “For here or to go?” → “For here.” → “That’s 4 dollars.” → (teacher gives fake money) → “Thank you! Enjoy!” Repeat with another student so everyone sees how easy it is.</li>
+        <li><strong>💬 Student – Student Practice (10 min):</strong> Put students in pairs. One is barista, one is customer. They use the <strong>Grade 2 or 3 scripts</strong> (or the “Choose Your Own Order” script). Let them swap roles after 3 minutes. The teacher walks around, listens, and gives high‑fives for any English attempt.</li>
+        <li><strong>🍹 Real Blender Demonstration – Teacher ONLY (10 min):</strong> Bring a real blender, fruits (mango, banana, strawberries), honey, ice, cups. <strong>Important:</strong> Only the teacher touches the blender for safety. Students <strong>give instructions</strong> in English. Example: Teacher says: “What should I add first?” Students shout: “Add the mango!” Teacher adds mango. “Add the banana!” “Add ice!” “Add honey!” “Now blend!” Teacher blends and says “VRRRRR!” Then pours into cups and hands to the students. This way students practice the sequence vocabulary while watching a fun, real demonstration.</li>
+        <li><strong>🏆 Full Role‑Play “Sunshine Café is Open!” (10 min):</strong> Rearrange the room into a café. Two students act as baristas, the rest are customers. Give each customer fake money ($1, $2, $5). Customers must order a drink (and maybe a snack), ask the price, pay, and say thank you. Baristas must ask size, for here/to go, and say “Enjoy your drink!” The teacher circulates and gives stickers for complete conversations.</li>
+      </ul>
+    </div>
+
+    <!-- Wrap‑up games & celebration -->
+    <div class="plan-card">
+      <h2>🎉 Wrap‑Up & Fun Games (5‑10 min)</h2>
+      <div class="game-idea"><strong>🔮 Mystery Order (whole class):</strong> One student thinks of a secret menu item. Others ask Yes/No questions: “Is it cold?” “Does it have mango?” until they guess. Great for reviewing vocabulary!</div>
+      <div class="game-idea"><strong>⚡ Speed Order Race:</strong> Set a 30‑second timer. A student must say a full order (greeting, drink name, size, payment, thank you) before the buzzer. If they succeed, the whole class cheers.</div>
+      <div class="game-idea"><strong>🍹 Name That Smoothie:</strong> After the blender demo, ask students to invent a name for the smoothie they just watched. “Sunshine Blast”, “Mango Tango”, “Honey Volcano”. Write the top three names on the board and let the class vote. The winner’s name is written on a cup and celebrated!</div>
+      <p><strong>⭐ Star Barista Award:</strong> Give a sticker or a paper badge to the student who used the most English or helped a friend. End with the goodbye ritual: everyone stands, bows like a café team, and says together: <em>“Thank you for visiting Sunshine Café! See you next time!”</em> 👋</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="print-bar">
+  <button class="print-btn" onclick="window.print()">🖨️ In tài liệu</button>
+</div>
+
+<script>
+  function showPage(name, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function filterCards(cat, btn) {
+    document.querySelectorAll('.fc-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.flashcard').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function printFlashcards() {
+    window.print();
+  }
+</script>
+
+</body>
+</html>
